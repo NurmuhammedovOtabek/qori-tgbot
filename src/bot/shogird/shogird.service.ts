@@ -3,19 +3,20 @@ import { Context, Markup } from "telegraf";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Ustoz } from "../schema/ustoz.schema";
+import { Shogird } from "../schema/shogird.schema";
 
 @Injectable()
-export class UstozService {
+export class ShogirdService {
   constructor(
-    @InjectModel(Ustoz.name) private readonly ustozModel: Model<Ustoz>
+    @InjectModel(Shogird.name) private readonly shogirdModel: Model<Shogird>
   ) {}
 
-  async UstozMenu(ctx: Context) {
+  async ShogirdMenu(ctx: Context) {
     try {
       const user_id = ctx.from?.id;
-      const user = await this.ustozModel.findOne({ user_id });
+      const user = await this.shogirdModel.findOne({ user_id });
       if (!user) {
-        await this.ustozModel.create({
+        await this.shogirdModel.create({
           user_id,
           username: ctx.from!.username,
           first_name: ctx.from!.first_name,
@@ -47,16 +48,16 @@ export class UstozService {
           }
         );
         user.save();
-      } else if (user.serifikat.length == 0) {
-        user.last_state = "serifikat";
-        await ctx.replyWithHTML("Sertifikatingizni rasmini kriting");
+      } else if (!user.teacher_code) {
+        user.last_state = "teacher_code";
+        await ctx.replyWithHTML("Ustozingizdan olgan maxsus kodni kriting");
         user.save();
       } else {
-        await ctx.reply("Ustozlar menusi", {
+        await ctx.reply("Shogirdlar menusi", {
           ...Markup.keyboard([
-            ["Mening malumotlarim"],
-            ["Shogirtlarim"],
-            ["Hatm qildim"]
+            ["Mening malumotlarim👈"],
+            ["Ustozim"],
+            ["Hatm qildim"],
           ]).resize(),
         });
       }
@@ -65,33 +66,28 @@ export class UstozService {
     }
   }
 
-  async UstozDate(ctx: Context) {
+  async ShogirdDate(ctx: Context) {
     try {
       const user_id = ctx.from?.id;
-      const user = await this.ustozModel.findOne({ user_id });
-      let teacher = "Admin sizni tasdiqladi"
-      if(!user?.is_teacher){
-        teacher = "Admin hali sizni tasdiqlamadi"
+      const user = await this.shogirdModel.findOne({ user_id });
+      let teacher = "Admin sizni tasdiqladi";
+      if (!user?.is_student) {
+        teacher = "Admin hali sizni tasdiqlamadi";
       }
-      await ctx.replyWithPhoto(user?.serifikat!, {
-        caption:
-          `<b>👨‍🏫 Ustoz:</b> ${user?.first_name}\n` +
+      await ctx.replyWithHTML(
+        `<b>👨‍🏫 Ustoz:</b> ${user?.first_name}\n` +
           `<b>🆔 User ID:</b> <code>${user?.user_id}</code>\n` +
           `<b>📞 Telefon:</b> ${user?.phone_number}\n` +
-          `<b>🔐 Secret key:</b> <code>${user?.secret_key}</code>\n` +
-          `<b>📌 Holat:</b> ${teacher}`+
-          `<b>📌 Hatmlar Soni:</b> ${user?.hatm}`,
-        parse_mode: "HTML",
-        ...Markup.keyboard([
-            ["Ustozlar menyusi"]
-        ]).resize()
-    });
+          // `<b>🔐 Secret key:</b> <code>${user?.secret_key}</code>\n` +
+          `<b>📌 Holat:</b> ${teacher}`,
+        {
+          ...Markup.keyboard([["Ustozlar menyusi"]]).resize(),
+        }
+      );
     } catch (error) {
       console.log(error);
     }
   }
 
-  async UstozlarniTasdiqlash(ctx:Context){
-    ctx.reply("Ustozni tasdiqlash uchun uning id sini kriting")
-  }
+
 }

@@ -12,4 +12,18 @@ export class UstozUpdate {
     await this.ustozService.UstozMenu(ctx);
   }
 
+  @Hears("Mening malumotlarim")
+  async Ustozmalumoti(@Ctx() ctx: Context) {
+    await this.ustozService.UstozDate(ctx);
+  }
+
+  @Hears("Ustozlar menyusi")
+  async Ustoz(@Ctx() ctx: Context) {
+    await this.ustozService.UstozMenu(ctx);
+  }
+
+  @Hears("Ustozlarni tasdiqlash")
+  async UstozlarniTasdiqlash(@Ctx() ctx:Context){
+    await this.ustozService.UstozlarniTasdiqlash(ctx)
+  }
 }

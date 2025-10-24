@@ -6,6 +6,8 @@ import { Bot, BotSchema } from "./schema/bot.schema";
 import { UstozService } from "./ustoz/ustoz.service";
 import { UstozUpdate } from "./ustoz/ustoz.update";
 import { Ustoz, UstozSchema } from "./schema/ustoz.schema";
+import { ShogirdService } from "./shogird/shogird.service";
+import { ShogirdUpdate } from "./shogird/shogird.update";
 
 @Module({
   imports: [
@@ -15,6 +17,13 @@ import { Ustoz, UstozSchema } from "./schema/ustoz.schema";
     ]),
   ],
   controllers: [],
-  providers: [BotService, UstozService, UstozUpdate, BotUpdate],
+  providers: [
+    BotService,
+    UstozService,
+    UstozUpdate,
+    ShogirdService,
+    ShogirdUpdate,
+    BotUpdate,
+  ],
 })
 export class BotModule {}

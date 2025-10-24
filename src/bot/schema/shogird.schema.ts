@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory, Virtual } from "@nestjs/mongoose";
 import { HydratedDocument } from "mongoose";
-const { v4: uuidv4 } = require('uuid');
-export type UstozDocument = HydratedDocument<Ustoz>;
 
-@Schema({ timestamps: true })
-export class Ustoz {
+
+export type ShogirdDocument = HydratedDocument<Shogird>;
+
+@Schema({timestamps:true})
+export class Shogird {
   @Prop()
   user_id: number;
 
@@ -15,7 +16,7 @@ export class Ustoz {
   last_name: string;
 
   @Virtual({
-    get: function (this: Ustoz) {
+    get: function (this: Shogird) {
       return `${this.first_name} ${this.last_name}`;
     },
   })
@@ -28,22 +29,19 @@ export class Ustoz {
   phone_number: string;
 
   @Prop()
-  serifikat: string;
-
-  @Prop({ type: String, default: uuidv4 })
-  secret_key: string;
+  teacher_code: string;
 
   @Prop()
   is_active: boolean;
 
   @Prop()
-  hatm: number;
+  is_student: boolean;
 
-  @Prop({ default: false })
-  is_teacher: boolean;
+  @Prop()
+  hatm: number;
 
   @Prop()
   last_state: string;
 }
 
-export const UstozSchema = SchemaFactory.createForClass(Ustoz);
+export const ShogirdSchema = SchemaFactory.createForClass(Shogird);

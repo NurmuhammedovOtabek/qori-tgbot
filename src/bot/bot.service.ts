@@ -25,7 +25,7 @@ export class BotService {
     }
   }
 
-  async mainMenu(ctx: Context, menuText = "Asosiy menusi") {
+  async mainMenu(ctx: Context, menuText = "Asosiy menu") {
     try {
       await ctx.replyWithHTML(menuText, {
         ...Markup.keyboard([["Ustoz"], ["Shogird"]]).resize(),
@@ -85,7 +85,6 @@ export class BotService {
             .sort({ _id: -1 });
           if (ustoz) {
             const GROUP_ID = process.env.CHAT_ID;
-            console.log(GROUP_ID);
             const photo = ctx.message.photo.pop();
             const fileId = photo?.file_id;
             const sent = await ctx.telegram.sendPhoto(GROUP_ID!, fileId!, {
@@ -103,6 +102,39 @@ export class BotService {
       }
     } catch (error) {
       console.log("Error on text", error);
+    }
+  }
+
+  async adminMenu(ctx:Context){
+    ctx.replyWithHTML("Xush kelibsiz admin", {
+      ...Markup.keyboard([
+        ["Ustozlar", "Shogidlar"],
+        ["Ustozlarni tasdiqlash"],
+      ])
+        .resize()
+        .oneTime(),
+    });
+  }
+
+  async onMessage(ctx:Context){
+    try {
+      if (ctx.from?.id == process.env.ADMIN){
+        if ("text" in ctx.message!) {
+          const user_id = ctx.message.text;
+          const ustoz = await this.ustozModel.findOne({user_id: +user_id})
+          if(ustoz){
+            ustoz.is_teacher = true
+            ustoz.save()
+            await ctx.replyWithHTML(`shu id: ${ustoz.user_id} li ustoz tasdiqlandi`)
+          } else{
+            await ctx.reply("Bunday ustoz yoq")
+          }
+        }
+
+      }
+    } catch (error) {
+      console.log(error);
+      
     }
   }
 }
