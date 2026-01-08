@@ -23,7 +23,14 @@ export class UstozUpdate {
   }
 
   @Hears("Ustozlarni tasdiqlash")
-  async UstozlarniTasdiqlash(@Ctx() ctx:Context){
-    await this.ustozService.UstozlarniTasdiqlash(ctx)
+  async UstozlarniTasdiqlash(@Ctx() ctx: Context) {
+    await this.ustozService.UstozlarniTasdiqlash(ctx);
+  }
+
+  @Hears("Hatm qildim")
+  async Hatm(@Ctx() ctx: Context) {
+    console.log("aaa");
+    
+    await this.ustozService.hatim(ctx);
   }
 }

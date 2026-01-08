@@ -5,25 +5,30 @@ import { ShogirdService } from "./shogird.service";
 
 @Update()
 export class ShogirdUpdate {
-  constructor(private readonly ustozService: ShogirdService) {}
+  constructor(private readonly shogirdService: ShogirdService) {}
 
   @Hears("Shogird")
-  async hearsUstoz(@Ctx() ctx: Context) {
-    await this.ustozService.ShogirdMenu(ctx);
+  async shogird(@Ctx() ctx: Context) {
+    await this.shogirdService.ShogirdMenu(ctx);
   }
 
-  @Hears("Mening malumotlarim")
-  async Ustozmalumoti(@Ctx() ctx: Context) {
-    await this.ustozService.ShogirdDate(ctx);
+  @Hears("Shogirdlar menusi")
+  async hearsshogird(@Ctx() ctx: Context) {
+    await this.shogirdService.ShogirdMenu(ctx);
   }
 
-  // @Hears("Ustozlar menyusi")
-  // async Ustoz(@Ctx() ctx: Context) {
-  //   await this.ustozService.UstozMenu(ctx);
-  // }
+  @Hears("Mening malumotlarim👈")
+  async shogirdmalumoti(@Ctx() ctx: Context) {
+    await this.shogirdService.ShogirdDate(ctx);
+  }
 
-  // @Hears("Ustozlarni tasdiqlash")
-  // async UstozlarniTasdiqlash(@Ctx() ctx: Context) {
-  //   await this.ustozService.UstozlarniTasdiqlash(ctx);
-  // }
+  @Hears("Ustozim")
+  async Ustoz(@Ctx() ctx: Context) {
+    await this.shogirdService.ustoz(ctx);
+  }
+
+  @Hears("Hatm qildim 📖")
+  async UstozlarniTasdiqlash(@Ctx() ctx: Context) {
+    await this.shogirdService.hatim(ctx);
+  }
 }

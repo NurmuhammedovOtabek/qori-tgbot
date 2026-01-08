@@ -8,21 +8,25 @@ import { UstozUpdate } from "./ustoz/ustoz.update";
 import { Ustoz, UstozSchema } from "./schema/ustoz.schema";
 import { ShogirdService } from "./shogird/shogird.service";
 import { ShogirdUpdate } from "./shogird/shogird.update";
+import { Shogird, ShogirdSchema } from "./schema/shogird.schema";
+import { Hatm, HatmSchema } from "./schema/hatm.schema";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Bot.name, schema: BotSchema },
       { name: Ustoz.name, schema: UstozSchema },
+      { name: Shogird.name, schema: ShogirdSchema },
+      { name: Hatm.name, schema: HatmSchema },
     ]),
   ],
   controllers: [],
   providers: [
-    BotService,
     UstozService,
     UstozUpdate,
     ShogirdService,
     ShogirdUpdate,
+    BotService,
     BotUpdate,
   ],
 })

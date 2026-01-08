@@ -4,7 +4,7 @@ import { HydratedDocument } from "mongoose";
 
 export type ShogirdDocument = HydratedDocument<Shogird>;
 
-@Schema({timestamps:true})
+@Schema({ timestamps: true })
 export class Shogird {
   @Prop()
   user_id: number;
@@ -29,16 +29,19 @@ export class Shogird {
   phone_number: string;
 
   @Prop()
-  teacher_code: string;
-
-  @Prop()
   is_active: boolean;
 
   @Prop()
   is_student: boolean;
 
   @Prop()
+  teacher_id: number;
+
+  @Prop({ default: 0 })
   hatm: number;
+
+  @Prop()
+  last_date: Date;
 
   @Prop()
   last_state: string;

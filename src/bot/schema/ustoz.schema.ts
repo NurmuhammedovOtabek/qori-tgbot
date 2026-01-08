@@ -36,11 +36,14 @@ export class Ustoz {
   @Prop()
   is_active: boolean;
 
-  @Prop()
+  @Prop({ default: 0 })
   hatm: number;
 
   @Prop({ default: false })
   is_teacher: boolean;
+
+  @Prop()
+  last_date: Date;
 
   @Prop()
   last_state: string;
